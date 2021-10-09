@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>linux命令</title>
+      <link href="posts/8ebbbb0f.html"/>
+      <url>posts/8ebbbb0f.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>locate 搜索特定关键字<br>whereis 查找二进制文件<br>greo 过滤搜索特定的关键字<br>find / -type f -name xxx.txt 查找xxx.txt文件，反斜杠(/)表示根目录，-type和-name表示类型和文件名<br>touch xxx.txt 创建xxx.txt文件<br>cp &lt;我们要复制的文件&gt; &lt;复制文件的目的地&gt;<br>mkdir 创建目录 mkdir /home/admin/ss 在/home/admin/下创建ss目录<br>mv 移动或者重命名文件 mv /home/admin/sss.txt /home/admin/xxx.txt; mv /home/admin/sss.txt /root/<br>rmdir &lt;目录&gt; 删除目录<br>head &lt;文件名&gt; 处理大文件时，默认显示文件前十行<br>tail &lt;文件名&gt; 查看文件最后几行<br>nl &lt;文件名&gt; 对行进行编号，同时在终端窗口输出<br>sed s/WWW/www/g xxx.txt 查找和替换文本，使用/s标签来搜索WWW，使用/g以www替换<br>more &lt;文件名&gt; 默认显示文件的一页，以Enter键向下滚动<br>less 显示和过滤文件 less xxx.txt打开文件，然后按反斜杠(/)然后输入要搜索的关键字</p><p>chown admin sss.txt 更改文件所有者为admin<br>chgrp root sss.txt 更改文件所属组为root<br>chmod 753 sss.txt 更改文件权限 r:4, w:2, x:1<br>chmod 4644 sss.txt SUID权限授予，rwSr–r–<br>chmod 2644 sss.txt SGID权限授予，rw-r-Sr–\</p><p>ifconfig IP地址和映射的网络接口<br>iwconfig 检查无线网络设备<br>ifconfig eth0 x.x.x.x 更改eth0接口的ip<br>欺骗MAC设置:<br>ifconfig eth0 down<br>ifconfig eth0 hw ether 00:11:22:33:44:55<br>ifconfig eth0 up<br>dhclient eth0 调用dhcp服务器分配新ip<br>dig hackingarticles.in 检查DNS<br>dig hackingarticles.in mx 搜索邮件服务器<br>dig hackingarticles.in ns 搜索名称服务器<br>echo “nameserver 1.1.1.1” &gt; /etc/reslov.conf 更改DNS服务器，echo命令和&gt;覆盖reslov.con文件\</p><p>ps 查看进程<br>ps aux 查看所有用户正在运行的进程<br>ps aux | grep msfconsole 过滤进程及其名称，搜索msfconsole<br>top 显示按使用资源排序的进程\</p><p>set | more 查看所有默认环境变量，Enter键向下滚动<br>set | grep HISTSIZE 过滤特定变量<br>HISTSIZE=0 临时更改变量，如果打开一个终端窗口，将更改回默认<br>echo $HISTSIZE ~/valueofHISTSIZE.txt<br>HISTSIZE=0<br>export HISTSIZE</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> linux命令 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="posts/4a17b156.html"/>
       <url>posts/4a17b156.html</url>

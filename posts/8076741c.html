@@ -510,7 +510,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020616.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://z3.ax1x.com/2021/10/20/5DSsoT.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -659,21 +659,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-10-17
+                    2021-10-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    11 分
                 </div>
                 
 
@@ -691,8 +691,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>ddd</p>
-<h2 id="0x01-代码审计流程"><a href="#0x01-代码审计流程" class="headerlink" title="0x01 代码审计流程"></a>0x01 代码审计流程</h2><h3 id="反向查找流程"><a href="#反向查找流程" class="headerlink" title="反向查找流程"></a>反向查找流程</h3><p>​    通过可控变量(输入点)回溯危险函数</p>
+                <h2 id="0x01-代码审计流程"><a href="#0x01-代码审计流程" class="headerlink" title="0x01 代码审计流程"></a>0x01 代码审计流程</h2><h3 id="反向查找流程"><a href="#反向查找流程" class="headerlink" title="反向查找流程"></a>反向查找流程</h3><p>​    通过可控变量(输入点)回溯危险函数</p>
 <p>​    查找危险函数确定可控变量</p>
 <p>​    传递的过程中触发漏洞</p>
 <p>案例</p>
@@ -860,8 +859,7 @@ try{
 <span class="token punctuation">}</span>
 <span class="token delimiter important">?&gt;</span></span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-
-
+<p>addslashes将引号转义成\后加引号，找不到注入点</p>
 <h3 id="4-第三个SQL代码分析"><a href="#4-第三个SQL代码分析" class="headerlink" title="4 第三个SQL代码分析"></a>4 第三个SQL代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
 <span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">try</span><span class="token punctuation">{</span>
@@ -911,6 +909,230 @@ try{
 
 <p>很明显查询语句是数字比较，忽略的单引号闭合，所以不需要单引号逃逸，所以这题也存在盲注和联合查询注入，addslashes相当于无用了</p>
 <p><img src="https://z3.ax1x.com/2021/10/17/5t4vsf.png"></p>
+<h3 id="6-第五个SQL注入分析"><a href="#6-第五个SQL注入分析" class="headerlink" title="6 第五个SQL注入分析"></a>6 第五个SQL注入分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token function">str_replace</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"'"</span><span class="token punctuation">,</span><span class="token double-quoted-string string">"\\'"</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where name = '<span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$name</span><span class="token punctuation">}</span></span>';"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>和addslashes差不多的意思，str_replace函数是将字符串的替换，将单引号替换成\加上单引号。但是和addslashes也有很大的区别，因为它会将\也变成双\，但是str_replace就只会变换一次</p>
+<p><img src="https://z3.ax1x.com/2021/10/18/5NQDC6.png"></p>
+<h3 id="7-第六个SQL注入代码分析"><a href="#7-第六个SQL注入代码分析" class="headerlink" title="7 第六个SQL注入代码分析"></a>7 第六个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token variable">$id</span> <span class="token operator">=</span> <span class="token function">intval</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where id = '<span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$id</span><span class="token punctuation">}</span></span>';"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>intval会将其中的字符串给去掉，没有发现能够注入的点</p>
+<h3 id="8-第七个SQL注入代码分析"><a href="#8-第七个SQL注入代码分析" class="headerlink" title="8 第七个SQL注入代码分析"></a>8 第七个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">intval</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where id = <span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span>;"</span><span class="token punctuation">;</span>
+        <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>并没有将过滤后的语句传入sql，所以这个intval等于无用，直接注入。</p>
+<p><img src="https://z3.ax1x.com/2021/10/18/5NfNE4.png"></p>
+<h3 id="9-第八个SQL注入代码分析"><a href="#9-第八个SQL注入代码分析" class="headerlink" title="9 第八个SQL注入代码分析"></a>9 第八个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">is_numeric</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">header</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"Status: 404 Not Found"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where id = <span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span>;"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    echxo <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>逻辑错误的分析，is_numeric会检测，如果数字就可以执行，如果不是数字，就会弹404页面。但是解析器会继续向下运行，所以会导致SQL注入。</p>
+<p><img src="https://z3.ax1x.com/2021/10/18/5N7VRH.png"></p>
+<h3 id="10-第九个SQL注入代码分析"><a href="#10-第九个SQL注入代码分析" class="headerlink" title="10 第九个SQL注入代码分析"></a>10 第九个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">is_numeric</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">header</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"Status: 404 Not found"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">exit</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where id =  <span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span>;"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+   
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// stmt = PDOStatement  预处理状态</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span><span class="token variable">$email</span><span class="token punctuation">,</span><span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>if中加了exit，让解析器无法继续执行，所以这个无法注入</p>
+<h3 id="11-第十个SQL注入代码分析"><a href="#11-第十个SQL注入代码分析" class="headerlink" title="11 第十个SQL注入代码分析"></a>11 第十个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token variable">$order</span> <span class="token operator">=</span> <span class="token function">addslashes</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'order'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details ORDER BY id <span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$order</span><span class="token punctuation">}</span></span>;"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里我们可以控制order导致sql盲注，因为这里没有报错信息，所以无法报错注入，利用 , 添加排序字段实现注入语句使用</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token punctuation">,</span><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+或者
+<span class="token keyword">and</span><span class="token punctuation">(</span><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>或者<span class="token keyword">and</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://z3.ax1x.com/2021/10/18/5UnM2F.png"></p>
+<h3 id="12-第十一个SQL注入代码分析"><a href="#12-第十一个SQL注入代码分析" class="headerlink" title="12 第十一个SQL注入代码分析"></a>12 第十一个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token variable">$order</span> <span class="token operator">=</span> <span class="token function">addslashes</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'order'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'/DESC|ASC/i'</span><span class="token punctuation">,</span> <span class="token variable">$order</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"Bad order"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details ORDER BY id <span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$order</span><span class="token punctuation">}</span></span>;"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>过滤不完全，在asc/desc后利用,添加排序字段实现注入语句</p>
+<pre class="line-numbers language-none"><code class="language-none">asc,if(1=1,sleep(1),0)
+
+修改代码使其无法注入
+!preg_match('/^(DESC|ASC)$/i', $order)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://z3.ax1x.com/2021/10/18/5Ul7Ct.png"></p>
+<h3 id="13-第十二个SQL注入代码分析"><a href="#13-第十二个SQL注入代码分析" class="headerlink" title="13 第十二个SQL注入代码分析"></a>13 第十二个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where name = ?;"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bindValue</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"name"</span><span class="token punctuation">,</span> <span class="token variable">$name</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">bind_result</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$age</span><span class="token punctuation">,</span> <span class="token variable">$email</span><span class="token punctuation">,</span> <span class="token variable">$country</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>标准的预编译代码，找不到注入点</p>
+<h3 id="14-第十三个SQL注入代码分析"><a href="#14-第十三个SQL注入代码分析" class="headerlink" title="14 第十三个SQL注入代码分析"></a>14 第十三个SQL注入代码分析</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include_once</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'./conn.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">{</span>
+    <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token function">addslashes</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token function">urldecode</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"SELECT name, age, email, country FROM user_details where name = '<span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$name</span><span class="token punctuation">}</span></span>';"</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$query</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$query</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"<span class="token interpolation"><span class="token variable">$email</span></span>"</span><span class="token punctuation">.</span><span class="token double-quoted-string string">"&lt;br&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>加了urldecode反而可以绕过addslashes，从而绕过单引号</p>
+<pre class="line-numbers language-none"><code class="language-none">' --&gt; %27   #单次url编码	因为浏览器会自动解码一次
+' --&gt; %25%32%37   #双次url编码
+所以输入'的二次urlencode即可绕过<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://z3.ax1x.com/2021/10/18/5aVurR.png"></p>
 
                 
             </div>
@@ -1456,8 +1678,7 @@ new Valine({
                 <a href="/posts/8076741c.html">
                     <div class="card-image">
                         
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020616.jpg" class="responsive-img" alt="SQL注入简单学习审计和分析">
+                        <img src="https://z3.ax1x.com/2021/10/20/5DSsoT.jpg" class="responsive-img" alt="SQL注入简单学习审计和分析">
                         
                         <span class="card-title">SQL注入简单学习审计和分析</span>
                     </div>
@@ -1502,8 +1723,7 @@ new Valine({
                 <a href="/posts/349f9b06.html">
                     <div class="card-image">
                         
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013834.jpg" class="responsive-img" alt="Linux日志分析">
+                        <img src="https://z3.ax1x.com/2021/10/20/5DSRSJ.jpg" class="responsive-img" alt="Linux日志分析">
                         
                         <span class="card-title">Linux日志分析</span>
                     </div>
@@ -1770,7 +1990,7 @@ new Valine({
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">23.1k</span>&nbsp;字
+                class="white-color">24.2k</span>&nbsp;字
             
             
             

